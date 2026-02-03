@@ -22,12 +22,64 @@ header h1 {
   font-size: 42px;
 }
 
+.container {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+}
+
+.container-shell {
+  width: 100%;
+  max-width: 925px;
+  margin: auto;
+  position: relative;
+}
+
+.container-shell::before,
+.container-shell::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 8px;
+  width: 42px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.container-shell::before {
+  left: 0;
+  background: linear-gradient(to right, #f4f4f4, rgba(244, 244, 244, 0));
+}
+
+.container-shell::after {
+  right: 0;
+  background: linear-gradient(to left, #f4f4f4, rgba(244, 244, 244, 0));
+}
+
+.container-shell.show-left::before {
+  opacity: 1;
+}
+
+.container-shell.show-right::after {
+  opacity: 1;
+}
+
 /* Album card styling */
 .album {
   position: relative;
-  width: 220px; 
+  width: 220px;
+  flex: 0 0 220px;
   background: #fff;
   border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .album img {
@@ -51,5 +103,33 @@ header h1 {
 }
 
 .overlay {
- display: none;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.album:hover .overlay {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    overflow-x: visible;
+    overflow-y: visible;
+    align-items: center;
+  }
+
+  .album {
+    flex: 0 0 auto;
+    width: min(100%, 320px);
+  }
 }

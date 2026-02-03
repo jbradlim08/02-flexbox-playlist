@@ -13,7 +13,8 @@
     <h1>🎛️ The Vibe List</h1>
   </header>
 
-  <div class="container">
+  <div class="container-shell">
+    <div class="container">
     <!-- Album Card 1: Echoes of Midnight -->
     <div class="album">
       <img src="img/echoes-of-midnight.png" alt="Echoes of Midnight">
@@ -109,6 +110,29 @@
         <p>Dreamwave / Ethereal Pop</p>
       </div>
     </div>
+    </div>
   </div>
+
+  <script>
+    const containerShell = document.querySelector('.container-shell');
+    const albumRow = document.querySelector('.container');
+
+    const updateFog = () => {
+      const maxScroll = albumRow.scrollWidth - albumRow.clientWidth;
+      containerShell.classList.toggle('show-left', albumRow.scrollLeft > 0);
+      containerShell.classList.toggle('show-right', albumRow.scrollLeft < maxScroll - 1);
+    };
+
+    albumRow.addEventListener('wheel', (event) => {
+      const isHorizontalScrollable = albumRow.scrollWidth > albumRow.clientWidth + 1;
+      if (!isHorizontalScrollable) return;
+      event.preventDefault();
+      albumRow.scrollLeft += event.deltaY;
+    }, { passive: false });
+
+    albumRow.addEventListener('scroll', updateFog);
+    window.addEventListener('resize', updateFog);
+    updateFog();
+  </script>
 </body>
 </html>
